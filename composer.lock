@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "6a6433962cd416c1746588b2a84f93fd",
+    "packages": [
+        {
+            "name": "motamonteiro/helpers",
+            "version": "0.0.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/motamonteiro/helpers.git",
+                "reference": "4ff1bf7152e6b7d2364477f0d5a27caf7a0f628f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/motamonteiro/helpers/zipball/4ff1bf7152e6b7d2364477f0d5a27caf7a0f628f",
+                "reference": "4ff1bf7152e6b7d2364477f0d5a27caf7a0f628f",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MotaMonteiro\\Helpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexandre Mota Monteiro",
+                    "email": "motamonteiro@gmail.com"
+                }
+            ],
+            "description": "Funções comuns que podem ser usadas em qualquer projeto PHP 7.",
+            "time": "2017-09-28T17:54:31+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
