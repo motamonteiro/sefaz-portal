@@ -1,0 +1,24 @@
+{
+    "name": "motamonteiro/sefaz-portal",
+    "require": {
+        "motamonteiro/helpers": "^0.0.14"
+    },
+    "authors": [
+        {
+            "name": "Alexandre Mota Monteiro",
+            "email": "motamonteiro@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MotaMonteiro\\Sefaz\\Portal\\": "./"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MotaMonteiro\\Sefaz\\Portal\\Providers\\PortalServiceProvider"
+            ]
+        }
+    }
+}
