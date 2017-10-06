@@ -6,12 +6,12 @@ Instale uma nova versão do Laravel
 laravel new novoSistema
 ```
 
-Baixe as dependências do projeto
+Crie a chave da aplicação
 ``` bash
-composer install
+php artisan key:generate
 ```
 
-Adicione a dependência do Sefaz/Portal no novoSistema
+Adicione a dependência do Sefaz/Portal no novoSistema:
 ``` bash
 composer require motamonteiro/sefaz-portal
 ```
@@ -21,6 +21,103 @@ Publique os arquivos necessários na pasta public
 php artisan vendor:publish
 ```
 
+Escolha a opção do PortalServiceprovider
+``` bash
+[5 ] Provider: MotaMonteiro\Sefaz\Portal\Providers\PortalServiceprovider
+```
+
+Abra o aqrquivo `app\Http\Kernel.php` e adicione o `PortalMiddleware` para controlar a autenticacao e a permissao dos usuários
+``` php
+/**
+ * The application's route middleware groups.
+ *
+ * @var array
+ */
+protected $middlewareGroups = [
+    'web' => [
+        ...
+        //\App\Http\Middleware\VerifyCsrfToken::class, (se quiser, comente a verificação do CsrfToken)
+        ...
+    ],
+    ...
+];
+
+/**
+ * The application's route middleware.
+ *
+ * These middleware may be assigned to groups or used individually.
+ *
+ * @var array
+ */
+protected $routeMiddleware = [
+    'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
+    'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+    'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    'can' => \Illuminate\Auth\Middleware\Authorize::class,
+    'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+    'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+    'portal' => \MotaMonteiro\Sefaz\Portal\Http\Middleware\PortalMiddleware::class,
+];
+```
+
+Copie trecho abaixo e cole no final do arquivo `.env` e altere de acordo com o seu projeto
+``` php
+SISTEMA_VERSAO='0.1.0'
+SISTEMA_SIGLA= ${APP_NAME}
+SISTEMA_NOME=${APP_NAME}
+SISTEMA_DESC='Sistema de Exemplo'
+SISTEMA_URL= ${APP_URL}
+SISTEMA_URL_BACKEND='http://api-cod_sistema_sistema-metro-des.com.br/v1/'
+
+AMBIENTE_SIGLA=${APP_ENV}
+AMBIENTE_NOME='Ambiente Local'
+
+CDN_CSS='http://cdn-des.sefaz.es.gov.br/layout/css/'
+CDN_JS='http://cdn-des.sefaz.es.gov.br/layout/js/'
+CDN_IMG='http://cdn-des.sefaz.es.gov.br/layout/img/'
+
+EMAIL_BACKEND='test@test.com'
+EMAIL_BACKEND_SERVIDOR='test@test.com'
+EMAIL_FRONTEND='test@test.com'
+EMAIL_PORTAL_API='test@test.com'
+
+PORTAL_URL='http://desenvintranet.sefaz.es.gov.br/Portal/'
+PORTAL_NOME_COOKIE='PORTAL_TOKEN_DEV'
+
+PORTAL_API_URL='http://s2-intranet-des.sefaz.es.gov.br/api/portal/'
+PORTAL_API_TOKEN_KEY='portaltokendev'
+```
+
+Crie uma rota de exemplo dentro de `routes\web.php`
+``` php
+<?php
+
+Route::get('/', ['as' => 'exemplo', 'middleware' => 'portal:COD_FUNCAO', 'uses' => 'ExemploController@index']);
+```
+
+Crie um controller de exemplo dentro de `app\Http\Controllers`
+``` php
+<?php
+
+namespace App\Http\Controllers;
+
+class ExemploController extends Controller
+{
+    public function index()
+    {
+        return view('exemplo');
+    }
+}
+```
+
+Crie uma view de exemplo dentro de `resources\views\teste.blade.php`
+``` php
+@extends('Portal::layout.default')
+@section('content')
+    Exemplo
+@endsection
+```
+
 Inicie o servidor do php
 ``` bash
 php -S 0.0.0.0:8000 -t public
@@ -28,5 +125,5 @@ php -S 0.0.0.0:8000 -t public
 
 Inicie o browser
 ``` bash
-http://localhost:8000
+http://ESTACAO.net.sefaz.es.gov.br:8000
 ```

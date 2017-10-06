@@ -6,7 +6,7 @@
 <link href="{{ config('sistema.cdn.img') }}favicon.png" rel="shortcut icon" type="image/png">
 <link href="{{  config('sistema.cdn.css') }}estilos.min.css" rel="stylesheet">
 <link href="{{ config('sistema.cdn.css') }}plugins.min.css" rel="stylesheet">
-<link href="{{ url('css/app.css') }}" rel="stylesheet">
+{{--<link href="{{ url('css/app.css') }}" rel="stylesheet">--}}
 <link href="http://internet.sefaz.es.gov.br/conf/msg/css/msg.css" rel="stylesheet">
 <!-- Hack para funcionamento de HTML5 e Media Queries no IE8 -->
 <!-- ATENÇÃO: Não funcionará se abrir o arquivo com duplo clique, via file:// -->
