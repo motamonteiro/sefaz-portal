@@ -1,0 +1,26 @@
+@foreach($menus as $menu)
+
+    @if(!empty($menu['menus']))
+
+        <li>
+            <a href="#" class="sidebar-submenu {{ ($portal->existeCodMenu($portal->codMenuAtual, $menu['menus'])) ? 'ativo' : '' }}" data-toggle="collapse" data-target="#menu-alterar-{{ $menu['codMenu'] }}">
+                <i class="{{ !empty($menu['nmeEstiloMenu']) ? $menu['nmeEstiloMenu'] : 'fa fa-edit' }}"></i> {{$menu['nmeMenu']}} 1111
+            </a>
+            <ul class="collapse submenu-itens {{ ($portal->existeCodMenu($portal->codMenuAtual, $menu['menus'])) ? 'in' : '' }}" id="menu-alterar-{{ $menu['codMenu'] }}">
+
+                @include('Portal::layout.includes.sidebar-menu', ['urlmodulo'=> $urlModulo, 'menus' => $menu['menus']])
+
+            </ul>
+        </li>
+
+    @else
+
+        <li>
+            <a href="{{ $urlModulo . $menu['nmeUrlMenu'] }}" {{ ($menu['codMenu'] == $portal->codMenuAtual) ? 'class=ativo' : '' }}>
+                <i class="{{ !empty($menu['nmeEstiloMenu']) ? $menu['nmeEstiloMenu'] : 'fa fa-circle-o' }}"></i> {{ $menu['nmeMenu'] }} 2222
+            </a>
+        </li>
+
+    @endif
+
+@endforeach

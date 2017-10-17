@@ -11,9 +11,11 @@ class PortalHelper
     public $codSistemaAtual;
     public $nmeSistemaAtual;
     public $dscSistemaAtual;
+    public $nmeUrlSistemaAtual;
     public $nmeIconeSistemaAtual;
     public $codModuloAtual;
     public $nmeModuloAtual;
+    public $nmeUrlModuloAtual;
     public $codMenuAtual;
     public $nmeMenuAtual;
     public $nmeEstiloMenuAtual;
@@ -21,12 +23,14 @@ class PortalHelper
     function __construct($numValidadeEmMinutos = 5)
     {
         $this->usuarioLogado = new UsuarioLogadoHelper($numValidadeEmMinutos);
-        $this->codSistemaAtual = config('sistema.sigla');
+        $this->codSistemaAtual = config('sistema.codigo');
         $this->nmeSistemaAtual = config('sistema.nome');
         $this->dscSistemaAtual = config('sistema.desc');
-        $this->nmeIconeSistemaAtual = '';
-        $this->codModuloAtual = '';
-        $this->nmeModuloAtual = '';
+        $this->nmeUrlSistemaAtual = config('sistema.url');
+        $this->nmeIconeSistemaAtual = (config('sistema.modulo.codigo') != '') ? config('sistema.modulo.url') . '/img/logo.png' : config('sistema.url') . '/img/logo.png';
+        $this->codModuloAtual = config('sistema.modulo.codigo');
+        $this->nmeModuloAtual = config('sistema.modulo.nome');
+        $this->nmeUrlModuloAtual = config('sistema.modulo.url');
         $this->codMenuAtual = '';
         $this->nmeMenuAtual = '';
         $this->nmeEstiloMenuAtual = '';
@@ -35,7 +39,7 @@ class PortalHelper
 
     public function validarPermissao($codFuncao)
     {
-        if($codFuncao == 'INDEX'){
+        if ($codFuncao == 'INDEX') {
             return $this->validarPermissaoIndex();
         }
 
@@ -90,7 +94,7 @@ class PortalHelper
                 foreach ($menu['funcoes'] as $funcao) {
                     array_push($arrFuncao, strtoupper($funcao['codFuncao']));
 
-                    if ($funcao['codFuncao'] == $codFuncaoAtual) {
+                    if ($sistema['codSistema'] == config('sistema.codigo') && ($funcao['codFuncao'] == $codFuncaoAtual)) {
 
                         $this->codSistemaAtual = $sistema['codSistema'];
                         $this->nmeSistemaAtual = $sistema['nmeSistema'];
@@ -99,6 +103,7 @@ class PortalHelper
 
                         $this->codModuloAtual = $modulo['codModulo'];
                         $this->nmeModuloAtual = $modulo['nmeModulo'];
+                        $this->nmeUrlModuloAtual = $modulo['nmeUrlModulo'];
 
                         $this->codMenuAtual = $menu['codMenu'];
                         $this->nmeMenuAtual = $menu['nmeMenu'];

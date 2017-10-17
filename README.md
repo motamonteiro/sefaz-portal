@@ -60,6 +60,23 @@ protected $routeMiddleware = [
 ];
 ```
 
+Abra o aqrquivo `app\Providers\EventServiceProvider.php` e substitua a variavel `$listen` de acordo com o trecho abaixo
+``` php
+/**
+     * The event listener mappings for the application.
+     *
+     * @var array
+     */
+    protected $listen = [
+        'MotaMonteiro\Sefaz\Portal\Events\ServidorApiNaoRespondeuEvent' => [
+            'MotaMonteiro\Sefaz\Portal\Listeners\ServidorApiIndisponivelListener',
+        ],
+        'MotaMonteiro\Sefaz\Portal\Events\ServidorApiRespondeuIncorretamenteEvent' => [
+            'MotaMonteiro\Sefaz\Portal\Listeners\ServidorApiRespostaInvalidaListener',
+        ],
+    ];
+```
+
 Copie trecho abaixo e cole no final do arquivo `.env` e altere de acordo com o seu projeto
 ``` php
 SISTEMA_VERSAO='0.1.0'
@@ -68,6 +85,10 @@ SISTEMA_NOME=${APP_NAME}
 SISTEMA_DESC='Sistema de Exemplo'
 SISTEMA_URL= ${APP_URL}
 SISTEMA_URL_BACKEND='http://api-cod_sistema_sistema-metro-des.com.br/v1/'
+
+MODULO_CODIGO= ''
+MODULO_NOME=''
+MODULO_URL= ''
 
 AMBIENTE_SIGLA=${APP_ENV}
 AMBIENTE_NOME='Ambiente Local'
@@ -110,7 +131,7 @@ class ExemploController extends Controller
 }
 ```
 
-Crie uma view de exemplo dentro de `resources\views\teste.blade.php`
+Crie uma view de exemplo dentro de `resources\views\exemplo.blade.php`
 ``` php
 @extends('Portal::layout.default')
 @section('content')

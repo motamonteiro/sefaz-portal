@@ -3,11 +3,17 @@
 return [
 
     'versao' => env('SISTEMA_VERSAO'),
-    'sigla' => env('SISTEMA_SIGLA'),
+    'codigo' => env('SISTEMA_CODIGO'),
     'nome' => env('SISTEMA_NOME'),
     'desc' => env('SISTEMA_DESC'),
     'url' => env('SISTEMA_URL'),
     'url_backend' => env('SISTEMA_URL_BACKEND'),
+
+    'modulo' => [
+        'codigo' => env('MODULO_CODIGO'),
+        'nome' => env('MODULO_NOME'),
+        'url' => env('MODULO_URL'),
+    ],
 
     'ambiente' => [
         'sigla' => env('AMBIENTE_SIGLA'),

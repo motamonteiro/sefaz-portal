@@ -4,6 +4,8 @@ namespace MotaMonteiro\Sefaz\Portal\Helpers;
 
 
 use MotaMonteiro\Helpers\ApiHelper as BaseApiHelper;
+use MotaMonteiro\Sefaz\Portal\Events\ServidorApiNaoRespondeuEvent;
+use MotaMonteiro\Sefaz\Portal\Events\ServidorApiNaoRespondeuCorretamenteEvent;
 
 class ApiHelper extends BaseApiHelper
 {
@@ -58,12 +60,12 @@ class ApiHelper extends BaseApiHelper
 
             if ($error[self::STATUS_CODE] == 500) {
 
-                //event(new ServidorApiNaoRespondeuEvent($this));
+                event(new ServidorApiNaoRespondeuEvent($this));
                 $message = 'Erro ao acessar o servidor da api.';
 
             } else {
 
-                //event(new ServidorApiRespondeuIncorretamenteEvent($this,$error));
+                event(new ServidorApiNaoRespondeuCorretamenteEvent($this,$error));
                 $message = 'Erro ao acessar a resposta da api.';
             }
 
