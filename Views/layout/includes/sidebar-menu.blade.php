@@ -17,7 +17,7 @@
 
         <li>
             <a href="{{ $urlModulo . $menu['nmeUrlMenu'] }}" {{ ($menu['codMenu'] == $portal->codMenuAtual) ? 'class=ativo' : '' }}>
-                <i class="{{ !empty($menu['nmeEstiloMenu']) ? $menu['nmeEstiloMenu'] : 'fa fa-circle-o' }}"></i> {{ $menu['nmeMenu'] }} 2222
+                <i class="{{ !empty($menu['nmeEstiloMenu']) ? $menu['nmeEstiloMenu'] : 'fa fa-circle-o' }}"></i> {{ $menu['nmeMenu'] }}
             </a>
         </li>
 
