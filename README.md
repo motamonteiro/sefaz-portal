@@ -71,7 +71,7 @@ Abra o aqrquivo `app\Providers\EventServiceProvider.php` e substitua a variavel 
         'MotaMonteiro\Sefaz\Portal\Events\ServidorApiNaoRespondeuEvent' => [
             'MotaMonteiro\Sefaz\Portal\Listeners\ServidorApiIndisponivelListener',
         ],
-        'MotaMonteiro\Sefaz\Portal\Events\ServidorApiRespondeuIncorretamenteEvent' => [
+        'MotaMonteiro\Sefaz\Portal\Events\ServidorApiNaoRespondeuCorretamenteEvent' => [
             'MotaMonteiro\Sefaz\Portal\Listeners\ServidorApiRespostaInvalidaListener',
         ],
     ];
