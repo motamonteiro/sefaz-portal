@@ -3,7 +3,7 @@
 <head>
     @include('Portal::layout.includes.head')
 </head>
-<body>
+<body onload="AtualizarJs()">
 @include('Portal::layout.includes.header')
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog full-modal" role="document">

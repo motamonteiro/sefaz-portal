@@ -11,6 +11,12 @@ Crie a chave da aplicação
 php artisan key:generate
 ```
 
+ Altere o nome da aplicação com o comando:
+
+``` bash
+ php artisan app:name NovoSistema
+```
+
 Adicione a dependência do Sefaz/Portal no novoSistema:
 ``` bash
 composer require motamonteiro/sefaz-portal
