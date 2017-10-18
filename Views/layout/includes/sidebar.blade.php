@@ -17,7 +17,7 @@
                         if (config('sistema.modulo.url') != '') {
                             $urlModulo = config('sistema.modulo.url').'/';
                         } else {
-                            $urlModulo =  '/'. strtolower($modulo['codModulo']).'/';
+                            $urlModulo =  '/'. strtolower($modulo['codModulo']);
                         }
                     } else {
                         $urlModulo = strtolower($modulo['nmeUrlModulo']);
