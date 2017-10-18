@@ -80,7 +80,7 @@ Abra o aqrquivo `app\Providers\EventServiceProvider.php` e substitua a variavel 
 Copie trecho abaixo e cole no final do arquivo `.env` e altere de acordo com o seu projeto
 ``` php
 SISTEMA_VERSAO='0.1.0'
-SISTEMA_MODULO= ${APP_NAME}
+SISTEMA_CODIGO= ${APP_NAME}
 SISTEMA_NOME=${APP_NAME}
 SISTEMA_DESC='Sistema de Exemplo'
 SISTEMA_URL= ${APP_URL}
