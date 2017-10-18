@@ -4,7 +4,7 @@
 
         <li>
             <a href="#" class="sidebar-submenu {{ ($portal->existeCodMenu($portal->codMenuAtual, $menu['menus'])) ? 'ativo' : '' }}" data-toggle="collapse" data-target="#menu-alterar-{{ $menu['codMenu'] }}">
-                <i class="{{ !empty($menu['nmeEstiloMenu']) ? $menu['nmeEstiloMenu'] : 'fa fa-edit' }}"></i> {{$menu['nmeMenu']}} 1111
+                <i class="{{ !empty($menu['nmeEstiloMenu']) ? $menu['nmeEstiloMenu'] : 'fa fa-edit' }}"></i> {{$menu['nmeMenu']}}
             </a>
             <ul class="collapse submenu-itens {{ ($portal->existeCodMenu($portal->codMenuAtual, $menu['menus'])) ? 'in' : '' }}" id="menu-alterar-{{ $menu['codMenu'] }}">
 

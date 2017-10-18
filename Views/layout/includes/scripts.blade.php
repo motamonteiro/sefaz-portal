@@ -5,5 +5,14 @@
 <script src="{{url('vendor/js/controller.js')}}"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
+@if (isset($erro))
+    <script>
+        swal({title: '', html: '{{ $erro }}', type: 'error', confirmButtonText: 'Ok'});
+    </script>
+@endif
+@if (isset($sucesso))
+    <script>
+        swal({title: '', html: '{{ $sucesso }}', type: 'success', confirmButtonText: 'Ok'});
+    </script>
+@endif
 @yield('scripts')
