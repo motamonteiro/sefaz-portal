@@ -1,7 +1,7 @@
 {
     "name": "motamonteiro/sefaz-portal",
     "require": {
-        "motamonteiro/helpers": "^0.0.14"
+        "motamonteiro/helpers": "^0.0.15"
     },
     "authors": [
         {
