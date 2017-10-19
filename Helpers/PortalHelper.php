@@ -8,6 +8,7 @@ class PortalHelper
      * @var UsuarioLogadoHelper
      */
     public $usuarioLogado;
+    public $codVersaoSistemaAtual;
     public $codSistemaAtual;
     public $nmeSistemaAtual;
     public $dscSistemaAtual;
@@ -23,6 +24,7 @@ class PortalHelper
     function __construct($numValidadeEmMinutos = 5)
     {
         $this->usuarioLogado = new UsuarioLogadoHelper($numValidadeEmMinutos);
+        $this->codVersaoSistemaAtual = config('sistema.versao');
         $this->codSistemaAtual = config('sistema.codigo');
         $this->nmeSistemaAtual = config('sistema.nome');
         $this->dscSistemaAtual = config('sistema.desc');
