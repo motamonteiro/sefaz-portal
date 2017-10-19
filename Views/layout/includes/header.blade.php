@@ -7,12 +7,12 @@
         @include('Portal::layout.includes.header-barra-sistema')
     </div>
     <div class="dados-usuario-barra pull-right hidden-xs">
-        <img src="{{config('sistema.portal.url')}}Avatar.ashx?token={{$_COOKIE[config('sistema.portal.nome_cookie')]}}" class="foto-usuario" id="id-usuario" alt="Nome do Usuário">
+        <img src="{{config('sistema.portal.url')}}Avatar.ashx?token={{$portal->usuarioLogado->tokenValue}}" class="foto-usuario" id="id-usuario" alt="Nome do Usuário">
     </div>
     <div id="detalhamento-usuario-barra">
         <div class="informacoes-usuario">
             <!--<span class="img-usuario">W</span>-->
-            <img src="{{config('sistema.portal.url')}}Avatar.ashx?token={{$_COOKIE[config('sistema.portal.nome_cookie')]}}" class="foto-usuario" alt="Nome do Usuário">
+            <img src="{{config('sistema.portal.url')}}Avatar.ashx?token={{$portal->usuarioLogado->tokenValue}}" class="foto-usuario" alt="Nome do Usuário">
             <p class="nome-usuario">{{ $portal->usuarioLogado->nmeUsuario }}</p>
             <p class="email-usuario">{{ $portal->usuarioLogado->nmeEmail }}</p>
             <p>{{ $portal->usuarioLogado->nmeOrgao }}</p>
