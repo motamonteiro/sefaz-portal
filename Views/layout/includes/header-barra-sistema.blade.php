@@ -4,8 +4,8 @@
     <p class="nome-sistema">{{ $portal->nmeModuloAtual }} <span>{{ $portal->codVersaoSistemaAtual }}</span></p>
 @else
     @if($portal->codModuloAtual)
-        <p class="sigla-sistema">{{ $portal->codModuloAtual .' - '.$portal->nmeModuloAtual }}</p>
-        <p class="nome-sistema">{{ $portal->nmeSistemaAtual }} <span>{{ $portal->codVersaoSistemaAtual }}</span></p>
+        <p class="sigla-sistema">{{ $portal->codModuloAtual .' - '.$portal->nmeModuloAtual }} <span>{{ $portal->codVersaoSistemaAtual }}</span></p>
+        <p class="nome-sistema">{{ $portal->nmeSistemaAtual }}</p>
     @else
         <p class="sigla-sistema">{{ $portal->nmeSistemaAtual .' - '.$portal->dscSistemaAtual }} <span>{{ $portal->codVersaoSistemaAtual }}</span></p>
     @endif
