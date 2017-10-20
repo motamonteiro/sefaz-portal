@@ -3,10 +3,10 @@
     @if(!empty($menu['menus']))
 
         <li>
-            <a href="#" class="sidebar-submenu {{ ($portal->existeCodMenu($portal->codMenuAtual, $menu['menus'])) ? 'ativo' : '' }}" data-toggle="collapse" data-target="#menu-alterar-{{ $menu['codMenu'] }}">
+            <a href="#" class="sidebar-submenu {{ ($portal->existeCodMenu($portal->codMenuAtual, $menu['menus'])) ? 'ativo' : '' }}" data-toggle="collapse" data-target="#menu-alterar-{{ $menu['idMenu'] }}">
                 <i class="{{ !empty($menu['nmeEstiloMenu']) ? $menu['nmeEstiloMenu'] : 'fa fa-edit' }}"></i> {{$menu['nmeMenu']}}
             </a>
-            <ul class="collapse submenu-itens {{ ($portal->existeCodMenu($portal->codMenuAtual, $menu['menus'])) ? 'in' : '' }}" id="menu-alterar-{{ $menu['codMenu'] }}">
+            <ul class="collapse submenu-itens {{ ($portal->existeCodMenu($portal->codMenuAtual, $menu['menus'])) ? 'in' : '' }}" id="menu-alterar-{{ $menu['idMenu'] }}">
 
                 @include('Portal::layout.includes.sidebar-menu', ['urlmodulo'=> $urlModulo, 'menus' => $menu['menus']])
 
