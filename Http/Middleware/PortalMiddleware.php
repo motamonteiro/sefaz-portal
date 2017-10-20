@@ -17,7 +17,7 @@ class PortalMiddleware
      */
     public function handle($request, Closure $next, $funcao)
     {
-        $portal = new PortalHelper(1);
+        $portal = new PortalHelper(10);
         $portal->usuarioLogado->getUsuariologado();
 
         if ($portal->usuarioLogado->numCpf == '') {

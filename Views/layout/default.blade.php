@@ -43,7 +43,7 @@
     $('.ambiente').css('cursor', 'pointer');
     $('.ambiente').click(function () {
         swal({
-            title: 'Token de Sessão aaa', html: '{{$portal->usuarioLogado->tokenValue}}', type: 'info',
+            title: 'Token de Sessão ', html: '{{$portal->usuarioLogado->tokenValue}}', type: 'info',
             confirmButtonText: 'OK'
         });
     });
