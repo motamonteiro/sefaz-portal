@@ -18,15 +18,19 @@ class PortalServiceprovider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../Views' => resource_path('views/vendor/Portal'),
-        ], 'views');
+        ], 'Portal:views');
+
+        $this->publishes([
+            __DIR__ . '/../Lang' => resource_path('lang/vendor/Portal'),
+        ], 'Portal:lang');
 
         $this->publishes([
             __DIR__ . '/../config/sistema.php' => config_path('sistema.php'),
-        ], 'config');
+        ], 'Portal:config');
         $this->publishes([
             __DIR__ . '/../public/assets/controller.js' => public_path('vendor/js/controller.js'),
             __DIR__ . '/../public/assets/msg.js' => public_path('vendor/js/msg.js'),
-        ], 'public');
+        ], 'Portal:public');
     }
 
     public function register()

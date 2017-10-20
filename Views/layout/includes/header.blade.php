@@ -7,18 +7,19 @@
         @include('Portal::layout.includes.header-barra-sistema')
     </div>
     <div class="dados-usuario-barra pull-right hidden-xs">
-        <img src="{{config('sistema.portal.url')}}Avatar.ashx?token={{$portal->usuarioLogado->tokenValue}}" class="foto-usuario" id="id-usuario" alt="Nome do Usuário">
+        <span class="img-usuario" id="id-usuario">{{ substr($portal->usuarioLogado->nmeUsuario, 0 ,1) }}</span>
+        {{--<img src="{{config('sistema.portal.url')}}Avatar.ashx?token={{$portal->usuarioLogado->tokenValue}}" class="foto-usuario" id="id-usuario" alt="Nome do Usuário">--}}
     </div>
     <div id="detalhamento-usuario-barra">
         <div class="informacoes-usuario">
-            <!--<span class="img-usuario">W</span>-->
-            <img src="{{config('sistema.portal.url')}}Avatar.ashx?token={{$portal->usuarioLogado->tokenValue}}" class="foto-usuario" alt="Nome do Usuário">
+            <span class="img-usuario">{{ substr($portal->usuarioLogado->nmeUsuario, 0 ,1) }}</span>
+            {{--<img src="{{config('sistema.portal.url')}}Avatar.ashx?token={{$portal->usuarioLogado->tokenValue}}" class="foto-usuario" alt="Nome do Usuário">--}}
             <p class="nome-usuario">{{ $portal->usuarioLogado->nmeUsuario }}</p>
             <p class="email-usuario">{{ $portal->usuarioLogado->nmeEmail }}</p>
             <p>{{ $portal->usuarioLogado->nmeOrgao }}</p>
         </div>
         <div class="barra-botoes">
-            <a href="{{ config('sistema.portal.url') }}../Identificacao/" class="btn btn-default btn-sm">Minha conta</a>
+            <a href="#" class="btn btn-default btn-sm">Minha conta</a>
             <a href="{{ route('logout') }}" class="btn btn-default btn-sm pull-right">Sair</a>
         </div>
     </div>
