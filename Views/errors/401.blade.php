@@ -41,7 +41,7 @@
         <div class="container">
             <div class="content">
                 <div class="title">Redirecionando...</div>
-                <url>{{config('sistema.portal.url')}}</url>
+                <url>{{$url}}</url>
             </div>
         </div>
     <script>
