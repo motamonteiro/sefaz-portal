@@ -21,7 +21,7 @@ class PortalMiddleware
         $portal->usuarioLogado->getUsuariologado();
 
         if ($portal->usuarioLogado->numCpf == '') {
-            $url = config('sistema.portal.url') . 'Autenticacao/Login.aspx?ReturnUrl=' . request()->fullUrl();
+            $url = config('sistema.portal.url') . '?redirect=' . request()->fullUrl();
             //Redirecionar para o portal
             return response(view('Portal::errors.401', compact('url')));
         }

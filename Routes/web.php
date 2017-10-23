@@ -1,3 +1,3 @@
 <?php
-Route::get('/login', ['as' => 'redirecionarLogin', 'uses' => 'PortalController@login']);
-Route::get('/logout', ['as' => 'redirecionarLogout', 'uses' => 'PortalController@logout']);
+Route::get('/login', ['as' => 'login', 'uses' => 'PortalController@login']);
+Route::get('/logout', ['as' => 'logout', 'uses' => 'PortalController@logout']);
