@@ -60,6 +60,7 @@ class UsuarioLogadoHelper
         $usuarioLogado = session(self::SESSAO_USUARIO);
 
         if (!$this->tokenValue ||
+            ($this->tokenValue != $_COOKIE[config('sistema.portal.nome_cookie')]) ||
             !$usuarioLogado ||
             !$this->helper->validarCpf($usuarioLogado->numCpf) ||
             $this->helper->compararDataHoraFormatoBr($usuarioLogado->datValidade, '<', date('d/m/Y H:i:s'))
