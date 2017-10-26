@@ -40,8 +40,8 @@ class ApiHelper extends BaseApiHelper
         $this->dados = '';
 
         $baseUrl = ($baseUrl) ? $baseUrl : config('sistema.url_backend');
-        $tokenKey = ($tokenKey) ? $tokenKey : config('sistema.portal.nome_cookie');
-        $tokenValue = (!$tokenValue && isset($_COOKIE[$tokenKey])) ? $_COOKIE[$tokenKey] : $tokenValue;
+        $tokenKey = ($tokenKey) ? $tokenKey : config('sistema.token_key_backend');
+        $tokenValue = (!$tokenValue && isset($_COOKIE[config('sistema.portal.nome_cookie')])) ? $_COOKIE[config('sistema.portal.nome_cookie')] : $tokenValue;
 
         parent::__construct($baseUrl, $tokenKey, $tokenValue);
     }

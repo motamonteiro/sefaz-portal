@@ -91,6 +91,7 @@ SISTEMA_NOME=${APP_NAME}
 SISTEMA_DESC='Sistema de Exemplo'
 SISTEMA_URL= ${APP_URL}
 SISTEMA_URL_BACKEND='http://api-cod_sistema_sistema-metro-des.com.br/v1/'
+SISTEMA_TOKEN_KEY_BACKEND='portaltokendev'
 
 MODULO_CODIGO= ''
 MODULO_NOME=''
@@ -112,7 +113,8 @@ PORTAL_URL='http://desenvintranet.sefaz.es.gov.br/Portal/'
 PORTAL_NOME_COOKIE='PORTAL_TOKEN_DEV'
 
 PORTAL_API_URL='http://s2-intranet-des.sefaz.es.gov.br/api/portal/'
-PORTAL_API_TOKEN_KEY='portaltokendev'
+PORTAL_API_TOKEN_KEY=${SISTEMA_TOKEN_KEY_BACKEND}
+
 ```
 
 Crie uma rota de exemplo dentro de `routes\web.php`
