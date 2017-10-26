@@ -8,6 +8,7 @@ return [
     'desc' => env('SISTEMA_DESC', ''),
     'url' => env('SISTEMA_URL', ''),
     'url_backend' => env('SISTEMA_URL_BACKEND', ''),
+    'token_key_backend' => env('SISTEMA_TOKEN_KEY_BACKEND', ''),
 
     'modulo' => [
         'codigo' => env('MODULO_CODIGO', ''),
