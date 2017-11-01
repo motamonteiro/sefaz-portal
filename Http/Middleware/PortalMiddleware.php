@@ -21,7 +21,7 @@ class PortalMiddleware
         $portal->usuarioLogado->getUsuariologado();
 
         if ($portal->usuarioLogado->numCpf == '') {
-            $uri = (request()->getRequestUri()[0] == '/') ? substr(request()->getRequestUri(), 1) : request()->getRequestUri();
+            $uri = (request()->getRequestUri() != null && request()->getRequestUri()[0] == '/') ? substr(request()->getRequestUri(), 1) : request()->getRequestUri();
             $url = config('sistema.portal.url') . '?redirect=' . config('app.url'). '/'. $uri;
             //Redirecionar para o portal
             return response(view('Portal::errors.401', compact('url')));
