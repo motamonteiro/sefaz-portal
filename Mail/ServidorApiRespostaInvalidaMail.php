@@ -59,7 +59,7 @@ class ServidorApiRespostaInvalidaMail extends Mailable
         $this->api = $api;
         $this->respostaInvalida = $respostaInvalida;
         $this->nmeSistema = config('sistema.nome');
-        $this->urlSistema = request()->fullUrl();
+        $this->urlSistema = config('app.url'). '/'. request()->getRequestUri();
         $this->nmeFrom = $this->nmeSistema;
         $this->nmeEmailFrom = config('sistema.email.frontend');
         $this->nmeEmailTo = config('sistema.email.backend');
