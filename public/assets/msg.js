@@ -45,6 +45,27 @@ function ajaxConsulta(verbo, pag_ajax, nomeForm, flg_aguarde) {
     });
 }
 
+function ajaxConsultaComAnexo(verbo, pag_ajax, parametro, flg_aguarde) {
+    if (flg_aguarde === 1) {
+        formataMsgPopup("aguarde");
+        esconde_aguarde = 1;
+    }else if(flg_aguarde){
+        funcao_fim = flg_aguarde;
+    }
+    var url = pag_ajax;
+
+    $.ajax({
+        type: verbo,
+        url: url,
+        data: parametro,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: ajaxResultado,
+        error: erroInterno
+    });
+}
+
 /*
 -----------------------------------------------------------------------------
 Nome da Função: erroInterno()
