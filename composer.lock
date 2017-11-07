@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7431f6bb83969f9673330656ce025d32",
+    "content-hash": "9321d9e4c245abf2fe69153b201b277e",
     "packages": [
         {
             "name": "motamonteiro/helpers",
-            "version": "0.0.15",
+            "version": "0.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/motamonteiro/helpers.git",
-                "reference": "037079eb3dd72648477cb43448fac57a60fcede7"
+                "reference": "e2af9ffaac522d9cbbe6dde90d8b75d9e57dd004"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/motamonteiro/helpers/zipball/037079eb3dd72648477cb43448fac57a60fcede7",
-                "reference": "037079eb3dd72648477cb43448fac57a60fcede7",
+                "url": "https://api.github.com/repos/motamonteiro/helpers/zipball/e2af9ffaac522d9cbbe6dde90d8b75d9e57dd004",
+                "reference": "e2af9ffaac522d9cbbe6dde90d8b75d9e57dd004",
                 "shasum": ""
             },
             "require-dev": {
@@ -41,7 +41,7 @@
                 }
             ],
             "description": "Funções comuns que podem ser usadas em qualquer projeto PHP 7.",
-            "time": "2017-10-19T12:04:44+00:00"
+            "time": "2017-11-07T14:11:07+00:00"
         }
     ],
     "packages-dev": [],
