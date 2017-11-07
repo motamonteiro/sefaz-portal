@@ -62,7 +62,7 @@ protected $routeMiddleware = [
     'can' => \Illuminate\Auth\Middleware\Authorize::class,
     'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-    'portal' => \MotaMonteiro\Sefaz\Portal\Http\Middleware\PortalMiddleware::class,
+    'portal' => \MotaMonteiro\Sefaz\Portal\Http\Middleware\FrontendMiddleware::class,
 ];
 ```
 
@@ -85,6 +85,10 @@ Abra o aqrquivo `app\Providers\EventServiceProvider.php` e substitua a variavel 
 
 Copie trecho abaixo e cole no final do arquivo `.env` e altere de acordo com o seu projeto
 ``` php
+#-----------------------------------------------------------------------------------------------------------------------
+#    CONFIGURAÇÕES PARA USO DO PACOTE SEFAZ-PORTAL
+#-----------------------------------------------------------------------------------------------------------------------
+
 SISTEMA_VERSAO='0.1.0'
 SISTEMA_CODIGO= ${APP_NAME}
 SISTEMA_NOME=${APP_NAME}

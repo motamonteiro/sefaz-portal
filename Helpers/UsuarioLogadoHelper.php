@@ -55,7 +55,7 @@ class UsuarioLogadoHelper
     /**
      * @return $this
      */
-    public function getUsuariologado()
+    public function getUsuarioLogado()
     {
         $usuarioLogado = session(self::SESSAO_USUARIO);
 
