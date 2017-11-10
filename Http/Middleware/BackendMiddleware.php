@@ -2,9 +2,9 @@
 
 namespace MotaMonteiro\Sefaz\Portal\Http\Middleware;
 
+
 use Closure;
-use MotaMonteiro\Sefaz\Portal\Helpers\ApiHelper;
-use MotaMonteiro\Sefaz\Portal\Helpers\UsuarioLogadoHelper;
+use MotaMonteiro\Sefaz\Portal\Helpers\PortalHelper;
 
 class BackendMiddleware
 {
@@ -17,36 +17,24 @@ class BackendMiddleware
      */
     public function handle($request, Closure $next, $funcao)
     {
-        $tokenKey = config('sistema.portal_api.token_key');
-        $tokenValue = $request->header($tokenKey);
+        $portal = new PortalHelper(10);
+        $portal->usuarioLogado->getUsuarioLogado(config('sistema.codigo'), config('sistema.modulo.codigo'));
 
-        if (empty($tokenKey) || empty($tokenValue)) {
-            $resposta = ['error' => true, 'message' => $tokenKey.'_not_provided'];
+        if (!$portal->usuarioLogado->validarUsuarioLogado()) {
+            $resposta = ['error' => true, 'message' => config('sistema.portal_api.token_key').'_invalid_user'];
             return response()->json($resposta, 400);
         }
 
-        $api = new ApiHelper(config('sistema.portal_api.url'), $tokenKey, $tokenValue);
-
-        $resposta = $api->chamaApi('permissao/sistema/'.config('sistema.codigo').'/modulo/'.config('sistema.modulo.codigo').'/funcao/'.$funcao, 'GET');
-
-        if ($api->existeMsgErroApi($resposta)) {
-            return response()->json($resposta, 401);
+        if (empty($portal->usuarioLogado->permissoesPortal)) {
+            return response()->json('O usuário não tem permissão no módulo '.config('sistema.codigo') .' - '. config('sistema.modulo.codigo'), 401);
         }
 
-        if (empty($resposta['permissao'])) {
+        if (!$portal->usuarioLogado->helper->checarValorArrayMultidimensional('codFuncao', $funcao, $portal->usuarioLogado->permissoesPortal )) {
             return response()->json('O usuário não tem permissão na função '.$funcao, 401);
         }
 
-        $usuarioAutenticado = new UsuarioLogadoHelper();
-        $usuarioAutenticado->tokenKey = $tokenKey;
-        $usuarioAutenticado->tokenValue = $tokenValue;
-        $usuarioAutenticado->numCpf = $resposta['usuario']['numCpf'];
-        $usuarioAutenticado->nmeUsuario = $resposta['usuario']['nmeUsuario'];
-        $usuarioAutenticado->nmeEmail = $resposta['usuario']['nmeEmail'];
-        $usuarioAutenticado->nmeSetor = $resposta['usuario']['nmeSetor'];
-        $usuarioAutenticado->numCnpjOrgao = $resposta['usuario']['numCnpjOrgao'];
+        app()->instance('usuarioLogado', $portal->usuarioLogado);
 
-        app()->instance('usuarioAutenticado', $usuarioAutenticado);
         return $next($request);
     }
 }

@@ -20,7 +20,7 @@ class FrontendMiddleware
         $portal = new PortalHelper(10);
         $portal->usuarioLogado->getUsuarioLogado();
 
-        if ($portal->usuarioLogado->numCpf == '') {
+        if (!$portal->usuarioLogado->validarUsuarioLogado()) {
             $uri = (request()->getRequestUri() != null && request()->getRequestUri()[0] == '/') ? substr(request()->getRequestUri(), 1) : request()->getRequestUri();
             $url = config('sistema.portal.url') . '?redirect=' . config('app.url'). '/'. $uri;
             //Redirecionar para o portal

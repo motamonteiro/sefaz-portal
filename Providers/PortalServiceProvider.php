@@ -6,7 +6,7 @@ namespace MotaMonteiro\Sefaz\Portal\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
-class PortalServiceprovider extends ServiceProvider
+class PortalServiceProvider extends ServiceProvider
 {
     public function boot()
     {
