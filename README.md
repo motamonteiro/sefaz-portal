@@ -27,9 +27,9 @@ Publique os arquivos necessários na pasta public
 php artisan vendor:publish
 ```
 
-Escolha a opção do PortalServiceprovider
+Escolha a opção do PortalServiceProvider
 ``` bash
-[5 ] Provider: MotaMonteiro\Sefaz\Portal\Providers\PortalServiceprovider
+[5 ] Provider: MotaMonteiro\Sefaz\Portal\Providers\PortalServiceProvider
 ```
 
 Abra o aqrquivo `app\Http\Kernel.php` e adicione o `PortalMiddleware` para controlar a autenticacao e a permissao dos usuários
