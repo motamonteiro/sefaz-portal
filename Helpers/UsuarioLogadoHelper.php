@@ -12,6 +12,7 @@ class UsuarioLogadoHelper
     public $tokenKey;
     public $tokenValue;
     public $numCpf;
+    public $nmeLogin;
     public $nmeUsuario;
     public $nmeEmail;
     public $nmeSetor;
@@ -28,6 +29,7 @@ class UsuarioLogadoHelper
         $this->tokenKey = $this->getTokenKey();
         $this->tokenValue = $this->getTokenValue();
         $this->numCpf = '';
+        $this->nmeLogin = '';
         $this->nmeUsuario = '';
         $this->nmeEmail = '';
         $this->nmeSetor = '';
@@ -150,6 +152,7 @@ class UsuarioLogadoHelper
         if (!isset($usuarioLogadoApi['permissao'])) {
 
             $this->numCpf = $usuarioLogadoApi['numCpf'];
+            $this->numCpf = $usuarioLogadoApi['numLogin'];
             $this->nmeUsuario = $usuarioLogadoApi['nmeUsuario'];
             $this->nmeEmail = $usuarioLogadoApi['nmeEmail'];
             $this->nmeSetor = $usuarioLogadoApi['nmeSetor'];
@@ -161,6 +164,7 @@ class UsuarioLogadoHelper
         } else {
 
             $this->numCpf = $usuarioLogadoApi['usuario']['numCpf'];
+            $this->nmeLogin = $usuarioLogadoApi['usuario']['nmeLogin'];
             $this->nmeUsuario = $usuarioLogadoApi['usuario']['nmeUsuario'];
             $this->nmeEmail = $usuarioLogadoApi['usuario']['nmeEmail'];
             $this->nmeSetor = $usuarioLogadoApi['usuario']['nmeSetor'];
@@ -177,6 +181,7 @@ class UsuarioLogadoHelper
         $this->tokenKey = $usuarioLogadoCache->tokenKey;
         $this->tokenValue = $usuarioLogadoCache->tokenValue;
         $this->numCpf = $usuarioLogadoCache->numCpf;
+        $this->nmeLogin = $usuarioLogadoCache->nmeLogin;
         $this->nmeUsuario = $usuarioLogadoCache->nmeUsuario;
         $this->nmeEmail = $usuarioLogadoCache->nmeEmail;
         $this->nmeSetor = $usuarioLogadoCache->nmeSetor;
