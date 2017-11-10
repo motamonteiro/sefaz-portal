@@ -3,12 +3,11 @@
 namespace MotaMonteiro\Sefaz\Portal\Helpers;
 
 
+use Illuminate\Support\Facades\Cache;
 use MotaMonteiro\Helpers\UtilHelper;
 
 class UsuarioLogadoHelper
 {
-    const SESSAO_USUARIO = 'usuarioLogado';
-
     public $helper;
     public $tokenKey;
     public $tokenValue;
@@ -21,11 +20,12 @@ class UsuarioLogadoHelper
     public $numValidadeEmMinutos;
     public $datValidade;
     public $sistemasPortal;
+    public $permissoesPortal;
 
     function __construct($numValidadeEmMinutos = 5)
     {
         $this->helper = new UtilHelper();
-        $this->tokenKey = config('sistema.portal_api.token_key');
+        $this->tokenKey = $this->getTokenKey();
         $this->tokenValue = $this->getTokenValue();
         $this->numCpf = '';
         $this->nmeUsuario = '';
@@ -36,94 +36,108 @@ class UsuarioLogadoHelper
         $this->numValidadeEmMinutos = $numValidadeEmMinutos;
         $this->datValidade = '';
         $this->sistemasPortal = [];
+        $this->permissoesPortal = [];
 
+    }
+
+    private function getTokenKey()
+    {
+        return (\request()->header('Authorization') != '') ? 'Authorization' : config('sistema.portal_api.token_key');
     }
 
     private function getTokenValue()
     {
-        $nomeCookie = config('sistema.portal.nome_cookie');
-        $token = isset($_COOKIE[$nomeCookie]) ? $_COOKIE[$nomeCookie] : '';
-
-        if ($this->tokenKey == 'Authorization' && $token != '') {
-            $token = 'Bearer ' . $token;
+        $token = \request()->header('Authorization') ?? '';
+        if ($token == '') {
+            $token = \request()->header($this->tokenKey) ?? '';
+            if ($token == '') {
+                $token = $_COOKIE[config('sistema.portal.nome_cookie')] ?? '';
+            }
         }
-
         return $token;
     }
 
+    public function validarUsuarioLogado()
+    {
+        if (
+            (!$this->tokenValue)
+            || (!$this->helper->validarCpf($this->numCpf))
+            || ($this->helper->compararDataHoraFormatoBr($this->datValidade, '<', date('d/m/Y H:i:s')))
+        ) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * @return $this
      */
-    public function getUsuarioLogado()
+    public function getUsuarioLogado($codSistema = '', $codModulo = '')
     {
-        $usuarioLogado = session(self::SESSAO_USUARIO);
 
-        if (!$this->tokenValue ||
-            ($this->tokenValue != $_COOKIE[config('sistema.portal.nome_cookie')]) ||
-            !$usuarioLogado ||
-            !$this->helper->validarCpf($usuarioLogado->numCpf) ||
-            $this->helper->compararDataHoraFormatoBr($usuarioLogado->datValidade, '<', date('d/m/Y H:i:s'))
-        ) {
+        if ($this->tokenValue != '') {
 
-            $this->getUsuarioLogadoDaApi();
-        } else {
-            $this->getUsuarioLogadoSessao();
+            $cacheKey = 'usuario_'.$this->tokenValue;
+            $cacheKey .= ($codSistema != '') ? '_cod_sistema_' . strtolower($codSistema) : '';
+            $cacheKey .= ($codModulo != '') ? '_cod_modulo_' . strtolower($codModulo) : '';
+
+            $this->getUsuarioLogadoDoCache($cacheKey);
+
+            if (!$this->validarUsuarioLogado()) {
+
+                return Cache::remember($cacheKey, $this->numValidadeEmMinutos, function () use ($codSistema, $codModulo) {
+
+                    if ($codSistema != '') {
+                        $nmeRota = 'permissao/sistema/'.strtolower($codSistema);
+                        $nmeRota .= ($codModulo != '') ? '/modulo/' . strtolower($codModulo) : '';
+                    } else {
+                        $nmeRota = 'permissao/raiz/sistema';
+                    }
+                    $this->getUsuarioLogadoDaApi($nmeRota);
+                    return $this;
+                });
+            }
         }
 
         return $this;
     }
 
-    public function limparUsuarioLogadoSessao()
+    private function getUsuarioLogadoDoCache($cacheKey)
     {
-        session([self::SESSAO_USUARIO => null]);
-    }
+        $usuarioLogadoCache = Cache::get($cacheKey);
 
-    private function setUsuarioLogadoSessao()
-    {
-        session([self::SESSAO_USUARIO => $this]);
-    }
-
-    private function getUsuarioLogadoSessao()
-    {
-        $usuarioLogadoSessao = session(self::SESSAO_USUARIO);
-
-        $this->numCpf = $usuarioLogadoSessao->numCpf;
-        $this->nmeUsuario = $usuarioLogadoSessao->nmeUsuario;
-        $this->nmeEmail = $usuarioLogadoSessao->nmeEmail;
-        $this->nmeSetor = $usuarioLogadoSessao->nmeSetor;
-        $this->numCnpjOrgao = $usuarioLogadoSessao->numCnpjOrgao;
-        $this->nmeOrgao = $usuarioLogadoSessao->nmeOrgao;
-        $this->sistemasPortal = $usuarioLogadoSessao->sistemasPortal;
-        $this->datValidade = $usuarioLogadoSessao->datValidade;
+        if ($usuarioLogadoCache instanceof $this) {
+            $this->preencherUsuarioLogadoDoCache($usuarioLogadoCache);
+        }
 
         return $this;
     }
 
-    private function getUsuarioLogadoDaApi()
+    private function getUsuarioLogadoDaApi($nmeRota)
     {
-        $api = new ApiHelper(config('sistema.portal_api.url'), $this->tokenKey, $this->tokenValue);
+        if (!empty($this->tokenKey) && !empty($this->tokenValue)) {
 
-        $usuarioLogadoApi = $api->chamaApi('permissao/raiz/sistema', 'GET');
+            $api = new ApiHelper(config('sistema.portal_api.url'), $this->tokenKey, $this->tokenValue);
 
-        if (!$api->existeMsgErroApi($usuarioLogadoApi)) {
+            $usuarioLogadoApi = $api->chamaApi($nmeRota, 'GET');
 
-            $this->preencherUsuarioLogadoDaApi($usuarioLogadoApi);
-            $this->setUsuarioLogadoSessao();
+            if (!$api->existeMsgErroApi($usuarioLogadoApi)) {
 
-        } elseif ($usuarioLogadoApi['message'] == 'token_expired') {
+                $this->preencherUsuarioLogadoDaApi($usuarioLogadoApi);
 
-            $token = $api->chamaApi('autenticacao/refreshToken', 'GET');
+            } elseif ($usuarioLogadoApi['message'] == 'token_expired') {
 
-            if (!$api->existeMsgErroApi($token)) {
-                $api->setTokenValue($token['token']);
+                $token = $api->chamaApi('autenticacao/refreshToken', 'GET');
 
-                $usuarioLogadoApi = $api->chamaApi('permissao/raiz/sistema', 'GET');
+                if (!$api->existeMsgErroApi($token)) {
+                    $api->setTokenValue($token['token']);
 
-                if (!$api->existeMsgErroApi($usuarioLogadoApi)) {
+                    $usuarioLogadoApi = $api->chamaApi('permissao/raiz/sistema', 'GET');
 
-                    $this->preencherUsuarioLogadoDaApi($usuarioLogadoApi);
-                    $this->setUsuarioLogadoSessao();
+                    if (!$api->existeMsgErroApi($usuarioLogadoApi)) {
+
+                        $this->preencherUsuarioLogadoDaApi($usuarioLogadoApi);
+                    }
                 }
             }
         }
@@ -133,14 +147,44 @@ class UsuarioLogadoHelper
 
     private function preencherUsuarioLogadoDaApi($usuarioLogadoApi)
     {
-        $this->numCpf = $usuarioLogadoApi['numCpf'];
-        $this->nmeUsuario = $usuarioLogadoApi['nmeUsuario'];
-        $this->nmeEmail = $usuarioLogadoApi['nmeEmail'];
-        $this->nmeSetor = $usuarioLogadoApi['nmeSetor'];
-        $this->numCnpjOrgao = $usuarioLogadoApi['numCnpjOrgao'];
-        $this->nmeOrgao = '';
-        $this->sistemasPortal = $usuarioLogadoApi['sistemas'];
-        $this->datValidade = $this->helper->somarDataHoraFormatoBr(date('d/m/Y H:i:s'), 0, 0, 0, 0, $this->numValidadeEmMinutos, 0);
+        if (!isset($usuarioLogadoApi['permissao'])) {
+
+            $this->numCpf = $usuarioLogadoApi['numCpf'];
+            $this->nmeUsuario = $usuarioLogadoApi['nmeUsuario'];
+            $this->nmeEmail = $usuarioLogadoApi['nmeEmail'];
+            $this->nmeSetor = $usuarioLogadoApi['nmeSetor'];
+            $this->numCnpjOrgao = $usuarioLogadoApi['numCnpjOrgao'];
+            $this->nmeOrgao = '';
+            $this->sistemasPortal = $usuarioLogadoApi['sistemas'] ?? [];
+            $this->datValidade = $this->helper->somarDataHoraFormatoBr(date('d/m/Y H:i:s'), 0, 0, 0, 0, $this->numValidadeEmMinutos, 0);
+
+        } else {
+
+            $this->numCpf = $usuarioLogadoApi['usuario']['numCpf'];
+            $this->nmeUsuario = $usuarioLogadoApi['usuario']['nmeUsuario'];
+            $this->nmeEmail = $usuarioLogadoApi['usuario']['nmeEmail'];
+            $this->nmeSetor = $usuarioLogadoApi['usuario']['nmeSetor'];
+            $this->numCnpjOrgao = $usuarioLogadoApi['usuario']['numCnpjOrgao'];
+            $this->nmeOrgao = '';
+            $this->sistemasPortal = [];
+            $this->permissoesPortal = $usuarioLogadoApi['permissao'] ?? [];
+            $this->datValidade = $this->helper->somarDataHoraFormatoBr(date('d/m/Y H:i:s'), 0, 0, 0, 0, $this->numValidadeEmMinutos, 0);
+        }
+    }
+
+    private function preencherUsuarioLogadoDoCache($usuarioLogadoCache)
+    {
+        $this->tokenKey = $usuarioLogadoCache->tokenKey;
+        $this->tokenValue = $usuarioLogadoCache->tokenValue;
+        $this->numCpf = $usuarioLogadoCache->numCpf;
+        $this->nmeUsuario = $usuarioLogadoCache->nmeUsuario;
+        $this->nmeEmail = $usuarioLogadoCache->nmeEmail;
+        $this->nmeSetor = $usuarioLogadoCache->nmeSetor;
+        $this->numCnpjOrgao = $usuarioLogadoCache->numCnpjOrgao;
+        $this->nmeOrgao = $usuarioLogadoCache->nmeOrgao;
+        $this->sistemasPortal = $usuarioLogadoCache->sistemasPortal;
+        $this->permissoesPortal = $usuarioLogadoCache->permissoesPortal;
+        $this->datValidade = $usuarioLogadoCache->datValidade;
     }
 
 }
