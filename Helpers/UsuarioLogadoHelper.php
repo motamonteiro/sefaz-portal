@@ -152,7 +152,7 @@ class UsuarioLogadoHelper
         if (!isset($usuarioLogadoApi['permissao'])) {
 
             $this->numCpf = $usuarioLogadoApi['numCpf'];
-            $this->numCpf = $usuarioLogadoApi['numLogin'];
+            $this->nmeLogin = $usuarioLogadoApi['nmeLogin'];
             $this->nmeUsuario = $usuarioLogadoApi['nmeUsuario'];
             $this->nmeEmail = $usuarioLogadoApi['nmeEmail'];
             $this->nmeSetor = $usuarioLogadoApi['nmeSetor'];
