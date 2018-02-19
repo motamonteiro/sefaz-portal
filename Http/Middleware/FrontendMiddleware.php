@@ -21,7 +21,13 @@ class FrontendMiddleware
         $portal->usuarioLogado->getUsuarioLogado();
 
         if (!$portal->usuarioLogado->validarUsuarioLogado()) {
-            $uri = (request()->getRequestUri() != null && request()->getRequestUri()[0] == '/') ? substr(request()->getRequestUri(), 1) : request()->getRequestUri();
+
+            if(request()->ajax()){
+                $uri = '';
+            } else {
+                $uri = (request()->getRequestUri() != null && request()->getRequestUri()[0] == '/') ? substr(request()->getRequestUri(), 1) : request()->getRequestUri();
+            }
+
             $url = config('sistema.portal.url') . '?redirect=' . config('app.url'). '/'. $uri;
             //Redirecionar para o portal
             return response(view('Portal::errors.401', compact('url')));
