@@ -32,7 +32,7 @@ Escolha a opção do PortalServiceProvider
 [5 ] Provider: MotaMonteiro\Sefaz\Portal\Providers\PortalServiceProvider
 ```
 
-Abra o aqrquivo `app\Http\Kernel.php` e adicione o `PortalMiddleware` para controlar a autenticacao e a permissao dos usuários
+Abra o aqrquivo `app\Http\Kernel.php` e adicione o `PortalMiddleware (FrontendMiddleware ou BackendMiddleware)` para controlar a autenticacao e a permissao dos usuários
 ``` php
 /**
  * The application's route middleware groups.
@@ -63,10 +63,11 @@ protected $routeMiddleware = [
     'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     'portal' => \MotaMonteiro\Sefaz\Portal\Http\Middleware\FrontendMiddleware::class,
+    //'portal' => \MotaMonteiro\Sefaz\Portal\Http\Middleware\BackendMiddleware::class,
 ];
 ```
 
-Abra o aqrquivo `app\Providers\EventServiceProvider.php` e substitua a variavel `$listen` de acordo com o trecho abaixo
+Abra o arquivo `app\Providers\EventServiceProvider.php` e substitua a variavel `$listen` de acordo com o trecho abaixo
 ``` php
 /**
      * The event listener mappings for the application.
@@ -120,6 +121,8 @@ PORTAL_API_URL='http://s2-intranet-des.sefaz.es.gov.br/api/portal/'
 PORTAL_API_TOKEN_KEY=${SISTEMA_TOKEN_KEY_BACKEND}
 
 ```
+
+No caso de uma aplicação `Frontend`, abra o arquivo `public\css\app.css` e remova todo o conteúdo do arquivo para não dar conflito com o `CDN SEFAZ`.
 
 Crie uma rota de exemplo dentro de `routes\web.php`
 ``` php

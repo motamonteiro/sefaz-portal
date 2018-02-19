@@ -15,7 +15,7 @@
                 @php
                     if (config('sistema.ambiente.sigla') == 'local') {
                         if (config('sistema.modulo.url') != '') {
-                            $urlModulo = config('sistema.modulo.url').'/';
+                            $urlModulo = config('sistema.modulo.url');
                         } else {
                             $urlModulo =  '/'. strtolower($modulo['codModulo']);
                         }
