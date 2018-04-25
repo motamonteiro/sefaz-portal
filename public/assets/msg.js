@@ -219,6 +219,8 @@ function exibeMsgCampo(array_msg_campo) {
                     $("#" + campo).show();
                 }else if(msg === "desabilitar"){
                     $("#" + campo).prop('disabled', 'disabled');
+                }else if(msg === "leitura"){
+                    $("#" + campo).prop('readonly', true);
                 }else if(msg === "habilitar"){
                     $("#" + campo).removeAttr("disabled");
                 }else if(msg === "remove"){
