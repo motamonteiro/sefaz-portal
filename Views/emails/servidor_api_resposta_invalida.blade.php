@@ -19,7 +19,7 @@
     @if($dado == 'nmeSenha' || $dado == 'nme_senha' || $dado == 'password')
     {{$dado . " : *****"}}
     @else
-    {{$dado . " : " . $value}}
+    {{$dado . " : " . print_r($value,true)}}
     @endif
     @endforeach
     @endif
