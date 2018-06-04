@@ -78,6 +78,17 @@ function erroInterno(){
 }
 
 /*
+-----------------------------------------------------------------------------
+Nome da Função: erroFirewall()
+Objetivo: Informar um erro interno de sistema.
+  -----------------------------------------------------------------------------
+*/
+function erroFirewall(supportId){
+    fecharMsgPopup();
+    swal({title: 'Bloqueio no Firewall', html: 'O Firewall da SEFAZ está bloqueando algum recurso desse sistema. Favor abrir um chamado no CSS (Central de Solicitações da SEFAZ) com a informação abaixo:<br><strong>Bloqueio de firewall: '+supportId+'</strong>', type: 'error', confirmButtonText: 'Ok'});
+}
+
+/*
  -----------------------------------------------------------------------------
  Nome da Função: ajaxResultado(resposta)
  Objetivo: Preparar as respostas que vem das funcoes "ajaxConsulta(nomeForm)"
@@ -135,8 +146,18 @@ function ajaxResultado(resposta) {
             while (match = regex.exec(resposta)) { result += match[1]; }
             return window.location = result;
         }
+		if (resposta.indexOf("<title>Request Rejected</title>") >= 0){
+            var match, result = "";
+            var regex = /Your support ID is: (.*?)<br>/ig;
+            while (match = regex.exec(resposta)) { result += match[1]; }
+            erroFirewall(result);
+        }else{
+			erroInterno();
+		}
+
+		//erroInterno();
         //alert("ERRO:"+resposta);
-        alert("ERRO: Recarregue a página.");
+        //alert("ERRO: Recarregue a página.");
     }
 
     if(funcao_fim != null){
@@ -219,6 +240,8 @@ function exibeMsgCampo(array_msg_campo) {
                     $("#" + campo).show();
                 }else if(msg === "desabilitar"){
                     $("#" + campo).prop('disabled', 'disabled');
+                }else if(msg === "leitura"){
+                    $("#" + campo).prop('readonly', true);
                 }else if(msg === "habilitar"){
                     $("#" + campo).removeAttr("disabled");
                 }else if(msg === "remove"){
