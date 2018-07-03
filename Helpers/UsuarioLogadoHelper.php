@@ -22,6 +22,8 @@ class UsuarioLogadoHelper
     public $datValidade;
     public $sistemasPortal;
     public $permissoesPortal;
+    public $statusCode;
+    public $msgErro;
 
     function __construct($numValidadeEmMinutos = 5)
     {
@@ -39,6 +41,8 @@ class UsuarioLogadoHelper
         $this->datValidade = '';
         $this->sistemasPortal = [];
         $this->permissoesPortal = [];
+        $this->statusCode = '200';
+        $this->msgErro = '';
 
     }
 
@@ -87,7 +91,7 @@ class UsuarioLogadoHelper
 
             if (!$this->validarUsuarioLogado()) {
 
-                return Cache::remember($cacheKey, $this->numValidadeEmMinutos, function () use ($codSistema, $codModulo) {
+                $resultado = Cache::remember($cacheKey, $this->numValidadeEmMinutos, function () use ($codSistema, $codModulo) {
 
                     if ($codSistema != '') {
                         $nmeRota = 'permissao/sistema/'.strtolower($codSistema);
@@ -98,6 +102,12 @@ class UsuarioLogadoHelper
                     $this->getUsuarioLogadoDaApi($nmeRota);
                     return $this;
                 });
+
+                $this->preencherUsuarioLogadoDoCache($resultado);
+                if (!$this->validarUsuarioLogado()) {
+                    Cache::forget($cacheKey);
+                }
+                return $resultado;
             }
         }
 
@@ -123,24 +133,11 @@ class UsuarioLogadoHelper
 
             $usuarioLogadoApi = $api->chamaApi($nmeRota, 'GET');
 
-            if (!$api->existeMsgErroApi($usuarioLogadoApi)) {
-
+            if ($api->existeMsgErroApi($usuarioLogadoApi)) {
+                $this->statusCode = $usuarioLogadoApi['status_code'];
+                $this->msgErro = $usuarioLogadoApi['message'];
+            } else {
                 $this->preencherUsuarioLogadoDaApi($usuarioLogadoApi);
-
-            } elseif ($usuarioLogadoApi['message'] == 'token_expired') {
-
-                $token = $api->chamaApi('autenticacao/refreshToken', 'GET');
-
-                if (!$api->existeMsgErroApi($token)) {
-                    $api->setTokenValue($token['token']);
-
-                    $usuarioLogadoApi = $api->chamaApi('permissao/raiz/sistema', 'GET');
-
-                    if (!$api->existeMsgErroApi($usuarioLogadoApi)) {
-
-                        $this->preencherUsuarioLogadoDaApi($usuarioLogadoApi);
-                    }
-                }
             }
         }
 
