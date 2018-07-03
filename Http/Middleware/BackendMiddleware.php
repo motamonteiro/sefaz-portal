@@ -21,8 +21,10 @@ class BackendMiddleware
         $portal->usuarioLogado->getUsuarioLogado(config('sistema.codigo'), config('sistema.modulo.codigo'));
 
         if (!$portal->usuarioLogado->validarUsuarioLogado()) {
-            $resposta = ['error' => true, 'message' => config('sistema.portal_api.token_key').'_invalid_user'];
-            return response()->json($resposta, 400);
+            $statusCode = ($portal->usuarioLogado->statusCode != '') ? $portal->usuarioLogado->statusCode : '200';
+            $msgErro = ($portal->usuarioLogado->msgErro != '') ? $portal->usuarioLogado->msgErro : config('sistema.portal_api.token_key').'_invalid_user';
+            $resposta = ['error' => true, 'message' => $msgErro];
+            return response()->json($resposta, $statusCode);
         }
 
         if (empty($portal->usuarioLogado->permissoesPortal)) {

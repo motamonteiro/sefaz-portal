@@ -90,6 +90,7 @@ class ApiHelper extends BaseApiHelper
             return [self::ERROR => 'true', self::STATUS_CODE => $statusCode, self::MESSAGES => 'Erro ao tratar a resposta da api: '.$resposta[self::JSON]['Message']];
         }
 
+        $resposta[self::JSON][self::STATUS_CODE] = $resposta['header_code'];
         return $resposta[self::JSON];
 
     }
