@@ -227,6 +227,10 @@ function exibeMsgCampo(array_msg_campo) {
                     $("#" + campo).remove();
                 }else if(msg === "clique"){
                     $("#" + campo).click();
+                }else if(msg === "check"){
+                    $("#" + campo).prop('checked', true);
+                }else if(msg === "uncheck"){
+                    $("#" + campo).prop('checked', false);
                 }else if(msg === "redirecionar"){
                     window.location = campo;
                 }else if(msg === "destacar"){
