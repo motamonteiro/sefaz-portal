@@ -25,6 +25,10 @@ class ApiHelper extends BaseApiHelper
      * @var array
      */
     private $dados;
+    /**
+     * @var string
+     */
+    private $statusCode;
 
 
     /**
@@ -38,6 +42,7 @@ class ApiHelper extends BaseApiHelper
         $this->rota = '';
         $this->metodo = '';
         $this->dados = '';
+        $this->statusCode = '';
 
         $baseUrl = ($baseUrl) ? $baseUrl : config('sistema.url_backend');
         $tokenKey = ($tokenKey) ? $tokenKey : config('sistema.token_key_backend');
@@ -53,6 +58,8 @@ class ApiHelper extends BaseApiHelper
         $this->dados = $dados;
 
         $resposta = $this->request($rota, $metodo, $dados);
+
+        $this->statusCode = (is_array($resposta)) ? $resposta['header_code'] : $resposta->getStatusCode();
 
         if ($this->existsRequestError()) {
 
@@ -90,7 +97,6 @@ class ApiHelper extends BaseApiHelper
             return [self::ERROR => 'true', self::STATUS_CODE => $statusCode, self::MESSAGES => 'Erro ao tratar a resposta da api: '.$resposta[self::JSON]['Message']];
         }
 
-        $resposta[self::JSON][self::STATUS_CODE] = $resposta['header_code'];
         return $resposta[self::JSON];
 
     }
@@ -122,6 +128,14 @@ class ApiHelper extends BaseApiHelper
     public function getDados(): array
     {
         return $this->dados;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusCode(): string
+    {
+        return $this->statusCode;
     }
 
 }

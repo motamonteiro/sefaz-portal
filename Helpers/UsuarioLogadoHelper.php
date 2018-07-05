@@ -134,7 +134,7 @@ class UsuarioLogadoHelper
             $usuarioLogadoApi = $api->chamaApi($nmeRota, 'GET');
 
             if ($api->existeMsgErroApi($usuarioLogadoApi)) {
-                $this->statusCode = $usuarioLogadoApi['status_code'];
+                $this->statusCode = $api->getStatusCode();
                 $this->msgErro = $usuarioLogadoApi['message'];
             } else {
                 $this->preencherUsuarioLogadoDaApi($usuarioLogadoApi);
