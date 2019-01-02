@@ -95,7 +95,7 @@ SISTEMA_CODIGO= ${APP_NAME}
 SISTEMA_NOME=${APP_NAME}
 SISTEMA_DESC='Sistema de Exemplo'
 SISTEMA_URL= ${APP_URL}
-SISTEMA_URL_BACKEND='http://api-cod_sistema_sistema-metro-des.com.br/v1/'
+SISTEMA_URL_BACKEND='https://api-cod_sistema_sistema-metro-des.com.br/v1/'
 SISTEMA_TOKEN_KEY_BACKEND='portaltokendev'
 
 MODULO_CODIGO= ''
@@ -105,19 +105,19 @@ MODULO_URL= ''
 AMBIENTE_SIGLA=${APP_ENV}
 AMBIENTE_NOME='Ambiente Local'
 
-CDN_CSS='http://cdn-des.sefaz.es.gov.br/layout/css/'
-CDN_JS='http://cdn-des.sefaz.es.gov.br/layout/js/'
-CDN_IMG='http://cdn-des.sefaz.es.gov.br/layout/img/'
+CDN_CSS='https://cdn-des.sefaz.es.gov.br/layout/css/'
+CDN_JS='https://cdn-des.sefaz.es.gov.br/layout/js/'
+CDN_IMG='https://cdn-des.sefaz.es.gov.br/layout/img/'
 
 EMAIL_BACKEND='test@test.com'
 EMAIL_BACKEND_SERVIDOR='test@test.com'
 EMAIL_FRONTEND='test@test.com'
 EMAIL_PORTAL_API='test@test.com'
 
-PORTAL_URL='http://desenvintranet.sefaz.es.gov.br/Portal/'
+PORTAL_URL='https://s2-metro-des.sefaz.es.gov.br/portal/'
 PORTAL_NOME_COOKIE='PORTAL_TOKEN_DEV'
 
-PORTAL_API_URL='http://s2-intranet-des.sefaz.es.gov.br/api/portal/'
+PORTAL_API_URL='https://s2-intranet-des.sefaz.es.gov.br/api/portal/'
 PORTAL_API_TOKEN_KEY=${SISTEMA_TOKEN_KEY_BACKEND}
 
 ```

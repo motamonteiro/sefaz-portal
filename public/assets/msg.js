@@ -423,7 +423,7 @@ function formataMsgPopup(tipo_mensagem, mensagem, w, h) {
 
     //html da mensagem
     var html =  "<div id='loading-page'>";
-    html += "<p><span><img src='http://cdn.sefaz.es.gov.br/layout/img/loading.gif' alt=''></span></p>";
+    html += "<p><span><img src='https://cdn.sefaz.es.gov.br/layout/img/loading.gif' alt=''></span></p>";
     html +=  "</div>";
 
     //Coloca o html no final do body
