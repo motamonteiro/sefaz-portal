@@ -44,7 +44,7 @@
 @include('Portal::layout.includes.scripts')
 
 <script>
-    @if(config('sistema.ambiente.sigla') == 'local' || config('sistema.ambiente.sigla') == 'desenvolvimento')
+    @if(config('sistema.ambiente.sigla') == 'local' || config('sistema.ambiente.sigla') == 'desenvolvimento' || config('sistema.ambiente.sigla') == 'homologacao')
     $('.ambiente').css('cursor', 'pointer');
     $('.ambiente').click(function () {
         swal({
@@ -52,7 +52,17 @@
             confirmButtonText: 'OK'
         });
     });
+    @endif
+
+    @if(config('sistema.portal.url') != '')
+    $(document).ready(function(){
+        $("p[class*='sistema-portal-url']").css('cursor', 'pointer');
+        $("p[class*='sistema-portal-url']").click(function () {
+            window.location.href = "{{config('sistema.portal.url')}}";
+        });
+    });
+    @endif
 </script>
-@endif
+
 </body>
 </html>

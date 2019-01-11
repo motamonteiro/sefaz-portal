@@ -1,6 +1,6 @@
 <div id="top-bar">
     <div class="logotipo-sefaz pull-left">
-        <p class="logo pull-left"><strong>Portal</strong> de <span>Sistemas</span></p>
+        <p class="logo pull-left sistema-portal-url"><strong>Portal</strong> de <span>Sistemas</span></p>
         <a href="#menu-toggle" id="menu-toggle" class="pull-right"><i class="fa fa-bars"></i></a>
     </div>
     <div class="nome-sistema-barra pull-left">
@@ -19,7 +19,7 @@
             <p>{{ $portal->usuarioLogado->nmeOrgao }}</p>
         </div>
         <div class="barra-botoes">
-            <a href="#" class="btn btn-default btn-sm">Minha conta</a>
+            <a target="_blank" href="https://css.sefaz.es.gov.br" class="btn btn-default btn-sm">Reportar Problema</a>
             <a href="{{ route('logout') }}" class="btn btn-default btn-sm pull-right">Sair</a>
         </div>
     </div>
