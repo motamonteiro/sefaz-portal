@@ -1,13 +1,4 @@
 <div id="sidebar-wrapper">
-    @if(config('sistema.modulo.codigo') == '')
-    <ul class="sidebar-nav">
-        <li>
-            <a href="/">
-                <i class="fa fa-home"></i> Início
-            </a>
-        </li>
-    </ul>
-    @endif
     @foreach($portal->usuarioLogado->sistemasPortal as $sistema)
         @if($sistema['codSistema'] == $portal->codSistemaAtual)
             @foreach($sistema['modulos'] as $modulo)
