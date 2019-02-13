@@ -28,11 +28,13 @@ class BackendMiddleware
         }
 
         if (empty($portal->usuarioLogado->permissoesPortal)) {
-            return response()->json('O usuário não tem permissão no módulo '.config('sistema.codigo') .' - '. config('sistema.modulo.codigo'), 401);
+            $resposta = ['error' => true, 'message' => 'O usuário não tem permissão no módulo '.config('sistema.codigo') .' - '. config('sistema.modulo.codigo')];
+            return response()->json($resposta, 401);
         }
 
         if (!$portal->usuarioLogado->helper->checarValorArrayMultidimensional('codFuncao', $funcao, $portal->usuarioLogado->permissoesPortal )) {
-            return response()->json('O usuário não tem permissão na função '.$funcao, 401);
+            $resposta = ['error' => true, 'message' => 'O usuário não tem permissão na função '.$funcao];
+            return response()->json($resposta, 401);
         }
 
         app()->instance('usuarioLogado', $portal->usuarioLogado);
