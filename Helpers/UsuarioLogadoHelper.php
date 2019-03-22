@@ -24,6 +24,7 @@ class UsuarioLogadoHelper
     public $permissoesPortal;
     public $statusCode;
     public $msgErro;
+    public $redeAcessoAtual; //intranet, metro ou internet
 
     function __construct($numValidadeEmMinutos = 5)
     {
@@ -43,6 +44,7 @@ class UsuarioLogadoHelper
         $this->permissoesPortal = [];
         $this->statusCode = '200';
         $this->msgErro = '';
+        $this->redeAcessoAtual = $this->getRedeAcessoAtual();
 
     }
 
@@ -61,6 +63,28 @@ class UsuarioLogadoHelper
             }
         }
         return $token;
+    }
+
+    private function getRedeAcessoAtual()
+    {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
+
+        $vetIP = explode(",", $ip);
+        $posVetIP = count($vetIP);
+
+        if ($posVetIP > 1) {
+            $ip = trim($vetIP[$posVetIP - 1]);
+        }
+
+        if (substr($ip,0,6) == "10.160" || substr($ip,0,7) == "192.168") {
+            $redeAcesso = 'intranet';
+        }elseif (substr($ip,0,4) == "10.4") {
+            $redeAcesso = 'metro';
+        } else {
+            $redeAcesso = 'internet';
+        }
+
+        return $redeAcesso;
     }
 
     public function validarUsuarioLogado()
@@ -155,7 +179,7 @@ class UsuarioLogadoHelper
             $this->nmeSetor = $usuarioLogadoApi['nmeSetor'];
             $this->numCnpjOrgao = $usuarioLogadoApi['numCnpjOrgao'];
             $this->nmeOrgao = '';
-            $this->sistemasPortal = $usuarioLogadoApi['sistemas'] ?? [];
+            $this->sistemasPortal = $this->filtrarPorRedeAcesso($usuarioLogadoApi['sistemas'] ?? []);
             $this->datValidade = $this->helper->somarDataHoraFormatoBr(date('d/m/Y H:i:s'), 0, 0, 0, 0, $this->numValidadeEmMinutos, 0);
 
         } else {
@@ -168,9 +192,48 @@ class UsuarioLogadoHelper
             $this->numCnpjOrgao = $usuarioLogadoApi['usuario']['numCnpjOrgao'];
             $this->nmeOrgao = '';
             $this->sistemasPortal = [];
-            $this->permissoesPortal = $usuarioLogadoApi['permissao'] ?? [];
+            $this->permissoesPortal = $this->filtrarPorRedeAcesso($usuarioLogadoApi['permissao'] ?? []);
             $this->datValidade = $this->helper->somarDataHoraFormatoBr(date('d/m/Y H:i:s'), 0, 0, 0, 0, $this->numValidadeEmMinutos, 0);
         }
+    }
+
+    private function filtrarPorRedeAcesso($sistemas = [])
+    {
+        $sistemas = collect($sistemas);
+
+        switch ($this->redeAcessoAtual) {
+            case 'internet':
+                $sistemas = $sistemas->where('nmeRedeAcesso',$this->redeAcessoAtual);
+                break;
+            case 'metro':
+                $sistemas = $sistemas->whereIn('nmeRedeAcesso', [$this->redeAcessoAtual, 'internet']);
+                break;
+            case 'intranet':
+                $sistemas = $sistemas->whereIn('nmeRedeAcesso', [$this->redeAcessoAtual, 'internet', 'metro']);
+                break;
+        }
+
+        $sistemas = $sistemas->toArray();
+
+        if ($sistemas[0]['modulos'] ?? false) {
+            foreach ($sistemas as $sistema) {
+                $modulos = collect($sistema['modulos']);
+                switch ($this->redeAcessoAtual) {
+                    case 'internet':
+                        $modulos = $modulos->where('nmeRedeAcesso',$this->redeAcessoAtual);
+                        break;
+                    case 'metro':
+                        $modulos = $modulos->whereIn('nmeRedeAcesso', [$this->redeAcessoAtual, 'internet']);
+                        break;
+                    case 'intranet':
+                        $modulos = $modulos->whereIn('nmeRedeAcesso', [$this->redeAcessoAtual, 'internet', 'metro']);
+                        break;
+                }
+                $sistema['modulos'] = $modulos->toArray();
+            }
+        }
+
+        return $sistemas;
     }
 
     private function preencherUsuarioLogadoDoCache($usuarioLogadoCache)
