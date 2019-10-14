@@ -69,6 +69,7 @@ class UsuarioLogadoHelper
     {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
 
+
         $vetIP = explode(",", $ip);
         $posVetIP = count($vetIP);
 
@@ -78,7 +79,7 @@ class UsuarioLogadoHelper
 
         if (substr($ip,0,6) == "10.160" || substr($ip,0,7) == "192.168") {
             $redeAcesso = 'intranet';
-        }elseif (substr($ip,0,4) == "10.4") {
+        } elseif (substr($ip,0,6) != "10.160" && substr($ip,0,3) == "10.") {
             $redeAcesso = 'metro';
         } else {
             $redeAcesso = 'internet';
