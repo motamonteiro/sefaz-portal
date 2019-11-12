@@ -28,12 +28,48 @@
             </ul>
         </div>
     @else
-        <div class="dados-usuario-barra pull-right">
-            @php
-                $uri = (request()->getRequestUri() != null && request()->getRequestUri()[0] == '/') ? substr(request()->getRequestUri(), 1) : request()->getRequestUri();
-                $url = config('sistema.portal.url') . '?redirect=' . config('app.url') . '/' . $uri;
-            @endphp
-            <a href="{{ $url }}"><button class="btn btn-primary btn-cidadao login-social">Entrar</button></a>
+        ​
+        <style>
+            .btn-logar-portal{
+                margin-top: 12px; margin-right:10px; overflow: hidden; background-color: #344860; border-color: white; transition-duration: 0.4s; border-radius: 5px;
+            }
+
+            .btn-logar-portal:hover{
+                background-color: white; /* Green */
+                color: #344860;
+            }
+            ​
+            @media (max-width: 991px) {
+                .btn-logar-portal-minimo{
+                    display: inline;
+                }
+            }
+            ​
+            @media (min-width: 992px) {
+                .btn-logar-portal-minimo{
+                    display: none;
+                }
+            }
+            ​
+            @media (max-width: 460px) {
+                .btn-logar-portal-minimo{
+                    display: none;
+                }
+            }
+        </style>
+        ​
+        @php
+            $uri = (request()->getRequestUri() != null && request()->getRequestUri()[0] == '/') ? substr(request()->getRequestUri(), 1) : request()->getRequestUri();
+            $url = config('sistema.portal.url') . '?redirect=' . config('app.url') . '/' . $uri;
+        @endphp
+        ​
+        <div class="pull-right hidden-xs hidden-sm">
+            <a href="{{ $url }}"><button class="btn btn-primary btn-logar-portal"> <i class="fa fa-users"></i> &nbsp; Logar no Portal </button></a>
         </div>
+        ​
+        <div class="btn-logar-portal-minimo pull-right">
+            <a href="{{ $url }}"><button class="btn btn-primary btn-logar-portal"> <i class="fa fa-users"></i></button></a>
+        </div>
+        ​
     @endif
 </div>
