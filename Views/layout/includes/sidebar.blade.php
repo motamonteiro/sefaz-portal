@@ -16,7 +16,6 @@
                 @endphp
 
                 @if(config('sistema.modulo.codigo') == '' || (config('sistema.modulo.codigo') != '' && config('sistema.modulo.codigo') == $modulo['codModulo']))
-
                     <ul class="sidebar-nav">
                         <li>
                             <a href="#" class="sidebar-submenu {{ ($modulo['codModulo'] == $portal->codModuloAtual) ? 'ativo' : '' }}" data-toggle="collapse" data-target="#menu-alterar{{ $modulo['codModulo'] }}">
@@ -33,4 +32,32 @@
             @endforeach
         @endif
     @endforeach
+
+    @if($portal->usuarioLogado->numCpf == '')
+        @php
+            if (config('sistema.ambiente.sigla') == 'local') {
+                if (config('sistema.modulo.url') != '') {
+                    $urlModulo = config('sistema.modulo.url');
+                } else {
+                    $urlModulo =  '/'. strtolower($portal->codModuloAtual);
+                }
+            } else {
+                $urlModulo = strtolower($portal->nmeUrlModuloAtual);
+            }
+        @endphp
+
+        <ul class="sidebar-nav">
+            <li>
+                <a href="#" class="sidebar-submenu ativo" data-toggle="collapse" data-target="#menu-alterar{{ $portal->codModuloAtual }}">
+                    <i class="{{ !empty($portal->menuPublico['menuRaiz']['nmeEstiloMenu']) ? $portal->menuPublico['menuRaiz']['nmeEstiloMenu'] : 'fa fa-edit' }}"></i> {{ $portal->nmeModuloAtual }}
+                </a>
+                <ul class="collapse submenu-itens in" id="menu-alterar{{ $portal->codModuloAtual }}">
+
+                    @include('Portal::layout.includes.sidebar-menu', ['urlmodulo'=> $urlModulo, 'menus' => $portal->menuPublico['menuRaiz']['menus']])
+
+                </ul>
+            </li>
+        </ul>
+
+    @endif
 </div>

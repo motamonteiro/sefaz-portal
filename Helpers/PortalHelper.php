@@ -20,6 +20,7 @@ class PortalHelper
     public $codMenuAtual;
     public $nmeMenuAtual;
     public $nmeEstiloMenuAtual;
+    public $menuPublico;
 
     function __construct($numValidadeEmMinutos = 5)
     {
@@ -36,16 +37,16 @@ class PortalHelper
         $this->codMenuAtual = '';
         $this->nmeMenuAtual = '';
         $this->nmeEstiloMenuAtual = '';
-
+        $this->menuPublico = config('sistema.menu_publico');
     }
 
-    public function validarPermissao($codFuncao)
+    public function validarPermissao($codFuncao, $flgPublico = false)
     {
         if ($codFuncao == 'INDEX') {
             return $this->validarPermissaoIndex();
         }
 
-        $codFuncoes = $this->getFuncoes($codFuncao);
+        $codFuncoes = (!$flgPublico) ? $this->getFuncoes($codFuncao) : $this->getFuncoesPublicas($codFuncao);
         return (in_array($codFuncao, $codFuncoes));
 
     }
@@ -129,5 +130,23 @@ class PortalHelper
         }
 
         return false;
+    }
+
+    private function getFuncoesPublicas($codFuncao)
+    {
+        $funcoesDisponiveis = [];
+        $sistema = [
+            'codSistema' => $this->codSistemaAtual,
+            'nmeSistema' => $this->nmeSistemaAtual,
+            'dscSistema' => $this->dscSistemaAtual,
+            'nmeUrlIcone' => $this->nmeIconeSistemaAtual,
+        ];
+        $modulo = [
+            'codModulo' => $this->codModuloAtual,
+            'nmeModulo' => $this->nmeModuloAtual,
+            'nmeUrlModulo' => $this->nmeUrlModuloAtual,
+        ];
+        $this->percorrerMenus($this->menuPublico['menuRaiz']['menus'], $funcoesDisponiveis, $codFuncao, $modulo, $sistema);
+        return $funcoesDisponiveis;
     }
 }
