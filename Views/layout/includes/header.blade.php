@@ -28,36 +28,30 @@
             </ul>
         </div>
     @else
-        ​
         <style>
             .btn-logar-portal{
                 margin-top: 12px; margin-right:10px; overflow: hidden; background-color: #344860; border-color: white; transition-duration: 0.4s; border-radius: 5px;
             }
-
             .btn-logar-portal:hover{
                 background-color: white; /* Green */
                 color: #344860;
             }
-            ​
             @media (max-width: 991px) {
                 .btn-logar-portal-minimo{
                     display: inline;
                 }
             }
-            ​
             @media (min-width: 992px) {
                 .btn-logar-portal-minimo{
                     display: none;
                 }
             }
-            ​
             @media (max-width: 460px) {
                 .btn-logar-portal-minimo{
                     display: none;
                 }
             }
         </style>
-        ​
         @php
             $uri = (request()->getRequestUri() != null && request()->getRequestUri()[0] == '/') ? substr(request()->getRequestUri(), 1) : request()->getRequestUri();
             $url = config('sistema.portal.url') . '?redirect=' . config('app.url') . '/' . $uri;
