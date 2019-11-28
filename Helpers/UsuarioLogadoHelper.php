@@ -77,7 +77,7 @@ class UsuarioLogadoHelper
             $ip = trim($vetIP[$posVetIP - 1]);
         }
 
-        if (substr($ip,0,6) == "10.160" || substr($ip,0,7) == "192.168") {
+        if (substr($ip,0,6) == "10.160" || substr($ip,0,7) == "192.168" || substr($ip,0,4) == "172.") {
             $redeAcesso = 'intranet';
         } elseif (substr($ip,0,6) != "10.160" && substr($ip,0,3) == "10.") {
             $redeAcesso = 'metro';
