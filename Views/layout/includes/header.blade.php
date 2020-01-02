@@ -32,23 +32,40 @@
             .btn-logar-portal{
                 margin-top: 12px; margin-right:10px; overflow: hidden; background-color: #344860; border-color: white; transition-duration: 0.4s; border-radius: 5px;
             }
+            .btn-logar-portal-menu{
+                margin-top: 12px; margin-right:10px; overflow: hidden; background-color: transparent; border-color: transparent; transition-duration: 0.4s; border-radius: 5px; color: #455A64;outline: none;
+            }
             .btn-logar-portal:hover{
                 background-color: white; /* Green */
                 color: #344860;
             }
+            .btn-logar-portal-menu:hover{
+                color: #afacb5; /* Green */
+                background-color: transparent;
+                border-color: transparent;
+            }
             @media (max-width: 991px) {
                 .btn-logar-portal-minimo{
                     display: inline;
+                }
+                .btn-logar-portal-menu{
+                    display: none;
                 }
             }
             @media (min-width: 992px) {
                 .btn-logar-portal-minimo{
                     display: none;
                 }
+                .btn-logar-portal-menu{
+                    display: none;
+                }
             }
-            @media (max-width: 460px) {
+            @media (max-width: 465px) {
                 .btn-logar-portal-minimo{
                     display: none;
+                }
+                .btn-logar-portal-menu{
+                    display: inline;
                 }
             }
         </style>
@@ -58,12 +75,12 @@
         @endphp
         ​
         <div class="pull-right hidden-xs hidden-sm">
-            <a href="{{ $url }}"><button class="btn btn-primary btn-logar-portal"> <i class="fa fa-users"></i> &nbsp; Logar no Portal </button></a>
+            <a id="btnLogarPortalTrigger" href="{{ $url }}"><button class="btn btn-primary btn-logar-portal"> <i class="fa fa-users"></i> &nbsp; Logar no Portal </button></a>
         </div>
         ​
         <div class="btn-logar-portal-minimo pull-right">
             <a href="{{ $url }}"><button class="btn btn-primary btn-logar-portal"> <i class="fa fa-users"></i></button></a>
         </div>
-        ​
+
     @endif
 </div>

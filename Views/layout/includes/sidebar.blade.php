@@ -1,3 +1,4 @@
+
 <div id="sidebar-wrapper">
     @foreach($portal->usuarioLogado->sistemasPortal as $sistema)
         @if($sistema['codSistema'] == $portal->codSistemaAtual)
@@ -58,6 +59,15 @@
                 </ul>
             </li>
         </ul>
+
+        <button class="btn-logar-portal-menu" style="margin-left:8px; white-space: nowrap;" onclick="clicarLogarMenuLateral()"> <i class="fa fa-users"></i><span style="margin-left:15px;"> Logar no Portal </span> </button>
+
+        <script>
+            function clicarLogarMenuLateral(){
+                let href = $('#btnLogarPortalTrigger').attr('href');
+                window.location = href;
+            }
+        </script>
 
     @endif
 </div>
