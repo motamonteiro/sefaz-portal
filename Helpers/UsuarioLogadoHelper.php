@@ -200,24 +200,8 @@ class UsuarioLogadoHelper
 
     private function filtrarPorRedeAcesso($sistemas = [])
     {
-        $sistemas = collect($sistemas);
-
-        switch ($this->redeAcessoAtual) {
-            case 'internet':
-                $sistemas = $sistemas->where('nmeRedeAcesso',$this->redeAcessoAtual);
-                break;
-            case 'metro':
-                $sistemas = $sistemas->whereIn('nmeRedeAcesso', [$this->redeAcessoAtual, 'internet']);
-                break;
-            case 'intranet':
-                $sistemas = $sistemas->whereIn('nmeRedeAcesso', [$this->redeAcessoAtual, 'internet', 'metro']);
-                break;
-        }
-
-        $sistemas = $sistemas->toArray();
-
         if ($sistemas[0]['modulos'] ?? false) {
-            foreach ($sistemas as $sistema) {
+            foreach ($sistemas as &$sistema) {
                 $modulos = collect($sistema['modulos']);
                 switch ($this->redeAcessoAtual) {
                     case 'internet':
