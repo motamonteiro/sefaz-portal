@@ -200,8 +200,9 @@ class UsuarioLogadoHelper
 
     private function filtrarPorRedeAcesso($sistemas = [])
     {
+        $sistemasPorRedeAcesso = [];
         if ($sistemas[0]['modulos'] ?? false) {
-            foreach ($sistemas as &$sistema) {
+            foreach ($sistemas as $sistema) {
                 $modulos = collect($sistema['modulos']);
                 switch ($this->redeAcessoAtual) {
                     case 'internet':
@@ -214,11 +215,13 @@ class UsuarioLogadoHelper
                         $modulos = $modulos->whereIn('nmeRedeAcesso', [$this->redeAcessoAtual, 'internet', 'metro']);
                         break;
                 }
-                $sistema['modulos'] = $modulos->toArray();
+                if (!$modulos->isEmpty()) {
+                    $sistema['modulos'] = $modulos->toArray();
+                    array_push($sistemasPorRedeAcesso, $sistema);
+                }
             }
         }
-
-        return $sistemas;
+        return $sistemasPorRedeAcesso;
     }
 
     private function preencherUsuarioLogadoDoCache($usuarioLogadoCache)
