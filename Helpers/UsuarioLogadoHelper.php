@@ -193,7 +193,7 @@ class UsuarioLogadoHelper
             $this->numCnpjOrgao = $usuarioLogadoApi['usuario']['numCnpjOrgao'];
             $this->nmeOrgao = '';
             $this->sistemasPortal = [];
-            $this->permissoesPortal = $this->filtrarPorRedeAcesso($usuarioLogadoApi['permissao'] ?? []);
+            $this->permissoesPortal = $usuarioLogadoApi['permissao'] ?? [];
             $this->datValidade = $this->helper->somarDataHoraFormatoBr(date('d/m/Y H:i:s'), 0, 0, 0, 0, $this->numValidadeEmMinutos, 0);
         }
     }
