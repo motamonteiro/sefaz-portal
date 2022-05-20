@@ -18,6 +18,7 @@ class UsuarioLogadoHelper
     public $nmeSetor;
     public $numCnpjOrgao;
     public $nmeOrgao;
+    public $flgUsuarioVerificado;
     public $numValidadeEmMinutos;
     public $datValidade;
     public $sistemasPortal;
@@ -38,6 +39,7 @@ class UsuarioLogadoHelper
         $this->nmeSetor = '';
         $this->numCnpjOrgao = '';
         $this->nmeOrgao = '';
+        $this->flgUsuarioVerificado = '';
         $this->numValidadeEmMinutos = $numValidadeEmMinutos;
         $this->datValidade = '';
         $this->sistemasPortal = [];
@@ -179,6 +181,7 @@ class UsuarioLogadoHelper
             $this->nmeEmail = $usuarioLogadoApi['nmeEmail'];
             $this->nmeSetor = $usuarioLogadoApi['nmeSetor'];
             $this->numCnpjOrgao = $usuarioLogadoApi['numCnpjOrgao'];
+            $this->flgUsuarioVerificado = $usuarioLogadoApi['flgUsuarioVerificado'];
             $this->nmeOrgao = '';
             $this->sistemasPortal = $this->filtrarPorRedeAcesso($usuarioLogadoApi['sistemas'] ?? []);
             $this->datValidade = $this->helper->somarDataHoraFormatoBr(date('d/m/Y H:i:s'), 0, 0, 0, 0, $this->numValidadeEmMinutos, 0);
@@ -191,6 +194,7 @@ class UsuarioLogadoHelper
             $this->nmeEmail = $usuarioLogadoApi['usuario']['nmeEmail'];
             $this->nmeSetor = $usuarioLogadoApi['usuario']['nmeSetor'];
             $this->numCnpjOrgao = $usuarioLogadoApi['usuario']['numCnpjOrgao'];
+            $this->flgUsuarioVerificado = $usuarioLogadoApi['usuario']['flgUsuarioVerificado'];
             $this->nmeOrgao = '';
             $this->sistemasPortal = [];
             $this->permissoesPortal = $usuarioLogadoApi['permissao'] ?? [];
@@ -234,6 +238,7 @@ class UsuarioLogadoHelper
         $this->nmeEmail = $usuarioLogadoCache->nmeEmail;
         $this->nmeSetor = $usuarioLogadoCache->nmeSetor;
         $this->numCnpjOrgao = $usuarioLogadoCache->numCnpjOrgao;
+        $this->flgUsuarioVerificado = $usuarioLogadoCache->flgUsuarioVerificado;
         $this->nmeOrgao = $usuarioLogadoCache->nmeOrgao;
         $this->sistemasPortal = $usuarioLogadoCache->sistemasPortal;
         $this->permissoesPortal = $usuarioLogadoCache->permissoesPortal;
